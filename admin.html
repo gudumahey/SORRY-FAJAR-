@@ -1,199 +1,440 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <title>Fajar Responses ❤️</title>
+<title>Fajar Responses ❤️</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
-    <style>
+<style>
 
-        body {
-            min-height: 100vh;
-            padding: 30px;
-        }
+.admin-page {
 
-        .admin {
-            max-width: 900px;
-            margin: auto;
-        }
+    min-height: 100vh;
 
-        .admin h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    padding: 40px 20px;
 
-        .response {
-            padding: 25px;
-            margin-bottom: 15px;
+}
 
-            border-radius: 20px;
 
-            background: rgba(255,255,255,.06);
+.admin-container {
 
-            border: 1px solid rgba(255,255,255,.1);
-        }
+    width:
+        min(900px,100%);
 
-        .accepted {
-            border-left: 5px solid #ff4f8b;
-        }
+    margin: auto;
 
-        .angry {
-            border-left: 5px solid #777;
-        }
+}
 
-        .response-title {
-            font-size: 20px;
-            font-weight: 700;
-        }
 
-        .time {
-            margin-top: 8px;
-            color: #aa8793;
-            font-size: 13px;
-        }
+.admin-header {
 
-        #loading {
-            text-align: center;
-            color: #aaa;
-        }
+    text-align: center;
 
-    </style>
+    margin-bottom: 35px;
+
+}
+
+
+.admin-header h1 {
+
+    font-size:
+        clamp(35px,7vw,60px);
+
+    color: #ff5b91;
+
+    text-shadow:
+        0 0 25px
+        rgba(255,60,120,.4);
+
+}
+
+
+.admin-header p {
+
+    color: #bd8b9b;
+
+}
+
+
+.status {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+    color: #c58b9e;
+
+}
+
+
+.response {
+
+    padding: 25px;
+
+    margin-bottom: 18px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.08),
+            rgba(255,20,90,.04)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    backdrop-filter:
+        blur(15px);
+
+    animation:
+        appear .4s ease;
+
+}
+
+
+.accepted {
+
+    border-left:
+        5px solid #ff4f8b;
+
+}
+
+
+.rejected {
+
+    border-left:
+        5px solid #777;
+
+}
+
+
+.response-title {
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+}
+
+
+.response-value {
+
+    margin-top: 10px;
+
+    color: #f5dce5;
+
+}
+
+
+.response-time {
+
+    margin-top: 10px;
+
+    color: #a98291;
+
+    font-size: 13px;
+
+}
+
+
+.empty {
+
+    text-align: center;
+
+    padding: 45px;
+
+    color: #a98291;
+
+}
+
+
+.error {
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: #ff719c;
+
+}
+
+
+@keyframes appear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
 
-<div class="admin">
 
-    <h1>💌 FAJAR'S RESPONSE</h1>
+<div class="admin-page">
 
-    <div id="loading">
-        Loading responses...
-    </div>
+<div class="admin-container">
 
-    <div id="responses"></div>
+
+<div class="admin-header">
+
+    <h1>
+        💌 FAJAR'S RESPONSES
+    </h1>
+
+    <p>
+        Rahul's Private Sorry Dashboard ❤️
+    </p>
 
 </div>
 
 
-<script type="module">
+<div
+    id="status"
+    class="status">
 
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    Checking Fajar's response...
 
-import {
-    getFirestore,
-    collection,
-    onSnapshot,
-    query,
-    orderBy
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import { firebaseConfig } from "./firebase.js";
+</div>
 
 
-const app = initializeApp(firebaseConfig);
+<div
+    id="responses">
 
-const db = getFirestore(app);
-
-
-const responsesDiv =
-    document.getElementById("responses");
-
-const loading =
-    document.getElementById("loading");
+</div>
 
 
-const q = query(
-    collection(db, "fajar_responses"),
-    orderBy("time", "desc")
-);
+</div>
+
+</div>
 
 
-onSnapshot(q, snapshot => {
 
-    loading.style.display = "none";
-
-    responsesDiv.innerHTML = "";
+<script>
 
 
-    if (snapshot.empty) {
+// =================================================
+// SAME GOOGLE APPS SCRIPT URL
+// =================================================
 
-        responsesDiv.innerHTML =
-            `<div class="response">
-                🥺 Abhi Fajar ne koi response nahi diya.
-            </div>`;
-
-        return;
-    }
+const GOOGLE_SCRIPT_URL =
+    "PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE";
 
 
-    snapshot.forEach(doc => {
+// =================================================
+// LOAD RESPONSES
+// =================================================
 
-        const data = doc.data();
+async function loadResponses() {
 
-        const isAccepted =
-            data.response === "ACCEPTED ❤️";
+    const status =
+        document.getElementById("status");
+
+    const container =
+        document.getElementById("responses");
 
 
-        let date = "Just now";
+    try {
+
+        const result =
+            await fetch(
+                GOOGLE_SCRIPT_URL
+            );
 
 
-        if (data.time) {
+        const data =
+            await result.json();
 
-            date =
-                data.time
-                .toDate()
-                .toLocaleString();
+
+        container.innerHTML =
+            "";
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            status.innerHTML =
+                "💗 Waiting for Fajar...";
+
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    🥺 Abhi Fajar ne
+                    koi response nahi diya.
+
+                </div>
+
+            `;
+
+            return;
 
         }
 
 
-        const div =
-            document.createElement("div");
+        status.innerHTML =
+            `💗 ${data.length} response received`;
 
 
-        div.className =
-            "response " +
-            (isAccepted ? "accepted" : "angry");
+        // Latest first
+
+        data.reverse();
 
 
-        div.innerHTML = `
+        data.forEach(
+            function(item) {
 
-            <div class="response-title">
 
-                ${isAccepted
-                    ? "💗 Fajar Accepted Your Sorry!"
-                    : "😤 Fajar Is Still Angry!"}
+                const accepted =
+                    item.response ===
+                    "ACCEPTED ❤️";
 
-            </div>
 
-            <div style="margin-top:10px;">
-                ${data.response}
-            </div>
+                const card =
+                    document.createElement(
+                        "div"
+                    );
 
-            <div class="time">
-                🕐 ${date}
+
+                card.className =
+                    "response " +
+                    (
+                        accepted
+                        ? "accepted"
+                        : "rejected"
+                    );
+
+
+                let time =
+                    item.time;
+
+
+                try {
+
+                    time =
+                        new Date(
+                            item.time
+                        ).toLocaleString();
+
+                } catch(error) {
+
+                    // Keep original time
+
+                }
+
+
+                card.innerHTML = `
+
+                    <div
+                        class="response-title">
+
+                        ${
+                            accepted
+
+                            ? "💗 FAJAR ACCEPTED YOUR SORRY!"
+
+                            : "😤 FAJAR IS STILL ANGRY!"
+                        }
+
+                    </div>
+
+
+                    <div
+                        class="response-value">
+
+                        ${item.response}
+
+                    </div>
+
+
+                    <div
+                        class="response-time">
+
+                        🕐 ${time}
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+    } catch(error) {
+
+        console.error(error);
+
+
+        status.innerHTML =
+            "❌ Could not connect to response server.";
+
+
+        container.innerHTML = `
+
+            <div class="error">
+
+                Check your Google Apps Script URL.
+
             </div>
 
         `;
 
+    }
 
-        responsesDiv.appendChild(div);
+}
 
-    });
 
-});
+// First load
+
+loadResponses();
+
+
+// Automatically update every 5 seconds
+
+setInterval(
+    loadResponses,
+    5000
+);
 
 </script>
+
 
 </body>
 
