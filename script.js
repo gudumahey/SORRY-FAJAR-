@@ -1,77 +1,227 @@
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-    getFirestore,
-    collection,
-    addDoc,
-    serverTimestamp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import { firebaseConfig } from "./firebase.js";
+// =================================================
+// FAJAR LOVE WEBSITE
+// =================================================
 
 
-const app = initializeApp(firebaseConfig);
+// PASTE YOUR GOOGLE APPS SCRIPT URL HERE
 
-const db = getFirestore(app);
+const GOOGLE_SCRIPT_URL =
+    "PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE";
 
 
-// Send Fajar's response
-window.sendResponse = async function(response) {
+// =================================================
+// SEND RESPONSE
+// =================================================
+
+async function sendResponse(response) {
+
+    const acceptButton =
+        document.getElementById("acceptBtn");
+
+    const rejectButton =
+        document.getElementById("rejectBtn");
 
     const message =
         document.getElementById("responseMessage");
 
-    const buttons =
-        document.querySelectorAll(".buttons button");
+
+    // Disable both buttons
+
+    acceptButton.disabled = true;
+    rejectButton.disabled = true;
 
 
-    // Prevent double clicks
-    buttons.forEach(button => {
-        button.disabled = true;
-        button.style.opacity = "0.6";
-        button.style.cursor = "not-allowed";
-    });
+    acceptButton.style.opacity = "0.6";
+    rejectButton.style.opacity = "0.6";
+
+
+    message.innerHTML =
+        "💌 Sending your answer...";
 
 
     try {
 
-        await addDoc(
-            collection(db, "fajar_responses"),
+        await fetch(
+            GOOGLE_SCRIPT_URL,
             {
-                response: response,
-                time: serverTimestamp(),
-                page: "Love Fajar"
+
+                method: "POST",
+
+                mode: "no-cors",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
+
+                body: JSON.stringify({
+
+                    response: response,
+
+                    page:
+                        "Love You Fajar",
+
+                    device:
+                        navigator.userAgent
+
+                })
+
             }
         );
 
 
-        if (response === "ACCEPTED ❤️") {
+        // ==============================
+        // ACCEPTED
+        // ==============================
+
+        if (
+            response ===
+            "ACCEPTED ❤️"
+        ) {
 
             message.innerHTML =
-                "🥺❤️ YAYYY! Thank you Fajar... I LOVE YOU SO MUCH! ❤️";
+                "🥺❤️ YAYYYY! Fajar ne sorry accept kar li! I LOVE YOU SO MUCH! ❤️";
 
-        } else {
 
-            message.innerHTML =
-                "😳 OH NOOO 😭 Fajar is still angry... Rahul ko aur manana padega 😂❤️";
+            createHeartExplosion();
 
         }
+
+
+        // ==============================
+        // REJECTED
+        // ==============================
+
+        else {
+
+            message.innerHTML =
+                "😭😤 OH NOOO! Fajar abhi bhi gussa hai... Rahul ko aur manana padega! ❤️";
+
+        }
+
 
     } catch (error) {
 
         console.error(error);
 
-        message.innerHTML =
-            "Something went wrong. Please try again.";
 
-        buttons.forEach(button => {
-            button.disabled = false;
-            button.style.opacity = "1";
-            button.style.cursor = "pointer";
-        });
+        message.innerHTML =
+            "❌ Response send nahi ho paya. Please try again.";
+
+
+        acceptButton.disabled = false;
+        rejectButton.disabled = false;
+
+        acceptButton.style.opacity = "1";
+        rejectButton.style.opacity = "1";
 
     }
 
-};
+}
+
+
+// =================================================
+// HEART EXPLOSION
+// =================================================
+
+function createHeartExplosion() {
+
+    for (
+        let i = 0;
+        i < 25;
+        i++
+    ) {
+
+        const heart =
+            document.createElement("div");
+
+
+        heart.innerHTML =
+            ["❤️","💕","💗","💖"]
+            [
+                Math.floor(
+                    Math.random() * 4
+                )
+            ];
+
+
+        heart.style.position =
+            "fixed";
+
+        heart.style.left =
+            "50%";
+
+        heart.style.top =
+            "50%";
+
+        heart.style.fontSize =
+            (15 + Math.random() * 30)
+            + "px";
+
+        heart.style.zIndex =
+            "9999";
+
+        heart.style.pointerEvents =
+            "none";
+
+
+        const x =
+            (Math.random() - .5)
+            * 500;
+
+        const y =
+            (Math.random() - .5)
+            * 500;
+
+
+        heart.animate(
+
+            [
+
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(1)",
+                    opacity: 1
+                },
+
+                {
+                    transform:
+                        `translate(
+                            calc(-50% + ${x}px),
+                            calc(-50% + ${y}px)
+                        )
+                        scale(.2)`,
+
+                    opacity: 0
+
+                }
+
+            ],
+
+            {
+
+                duration:
+                    1200 +
+                    Math.random() * 700,
+
+                easing:
+                    "cubic-bezier(.2,.8,.3,1)"
+
+            }
+
+        );
+
+
+        document.body.appendChild(
+            heart
+        );
+
+
+        setTimeout(
+            () => heart.remove(),
+            2200
+        );
+
+    }
+
+}
