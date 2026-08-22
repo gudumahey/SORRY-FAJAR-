@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Fajar Responses ❤️</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .admin {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .admin h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .response {
+            padding: 25px;
+            margin-bottom: 15px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,.06);
+
+            border: 1px solid rgba(255,255,255,.1);
+        }
+
+        .accepted {
+            border-left: 5px solid #ff4f8b;
+        }
+
+        .angry {
+            border-left: 5px solid #777;
+        }
+
+        .response-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .time {
+            margin-top: 8px;
+            color: #aa8793;
+            font-size: 13px;
+        }
+
+        #loading {
+            text-align: center;
+            color: #aaa;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="admin">
+
+    <h1>💌 FAJAR'S RESPONSE</h1>
+
+    <div id="loading">
+        Loading responses...
+    </div>
+
+    <div id="responses"></div>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    onSnapshot,
+    query,
+    orderBy
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import { firebaseConfig } from "./firebase.js";
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+const responsesDiv =
+    document.getElementById("responses");
+
+const loading =
+    document.getElementById("loading");
+
+
+const q = query(
+    collection(db, "fajar_responses"),
+    orderBy("time", "desc")
+);
+
+
+onSnapshot(q, snapshot => {
+
+    loading.style.display = "none";
+
+    responsesDiv.innerHTML = "";
+
+
+    if (snapshot.empty) {
+
+        responsesDiv.innerHTML =
+            `<div class="response">
+                🥺 Abhi Fajar ne koi response nahi diya.
+            </div>`;
+
+        return;
+    }
+
+
+    snapshot.forEach(doc => {
+
+        const data = doc.data();
+
+        const isAccepted =
+            data.response === "ACCEPTED ❤️";
+
+
+        let date = "Just now";
+
+
+        if (data.time) {
+
+            date =
+                data.time
+                .toDate()
+                .toLocaleString();
+
+        }
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.className =
+            "response " +
+            (isAccepted ? "accepted" : "angry");
+
+
+        div.innerHTML = `
+
+            <div class="response-title">
+
+                ${isAccepted
+                    ? "💗 Fajar Accepted Your Sorry!"
+                    : "😤 Fajar Is Still Angry!"}
+
+            </div>
+
+            <div style="margin-top:10px;">
+                ${data.response}
+            </div>
+
+            <div class="time">
+                🕐 ${date}
+            </div>
+
+        `;
+
+
+        responsesDiv.appendChild(div);
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>
