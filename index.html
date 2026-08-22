@@ -8,27 +8,31 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- INTRO -->
+    <!-- ================= INTRO ================= -->
+
     <section id="intro">
 
-        <div class="heart-side left">
+        <div class="heart-stream left">
             <span>❤️</span>
-            <span>💗</span>
             <span>💕</span>
+            <span>💗</span>
+            <span>💖</span>
             <span>❤️</span>
         </div>
 
         <div class="love-center">
 
-            <div class="big-heart">❤️</div>
+            <div class="big-heart">
+                ❤️
+            </div>
 
             <h1>LOVE YOU</h1>
+
             <h2>FAJAR</h2>
 
             <p>My beautiful wiffey ❤️</p>
@@ -41,9 +45,10 @@
 
         </div>
 
-        <div class="heart-side right">
-            <span>💕</span>
+        <div class="heart-stream right">
+            <span>💖</span>
             <span>❤️</span>
+            <span>💕</span>
             <span>💗</span>
             <span>❤️</span>
         </div>
@@ -51,24 +56,52 @@
     </section>
 
 
-    <!-- MAIN DASHBOARD -->
-    <section id="dashboard">
+    <!-- ================= MAIN ================= -->
 
-        <div class="particles"></div>
+    <main id="dashboard">
+
+        <!-- Floating background hearts -->
+
+        <div class="floating-hearts">
+
+            <span>❤️</span>
+            <span>💕</span>
+            <span>💗</span>
+            <span>💖</span>
+            <span>💘</span>
+            <span>❤️</span>
+            <span>💕</span>
+            <span>💗</span>
+            <span>💖</span>
+            <span>❤️</span>
+            <span>💞</span>
+            <span>💕</span>
+
+        </div>
+
+
+        <!-- ================= CARD ================= -->
 
         <div class="dashboard-card">
 
-            <div class="top-heart">❤️</div>
+            <div class="top-heart">
+                💌
+            </div>
 
             <div class="small-title">
-                A LITTLE SOMETHING FOR
+                A SPECIAL APPLICATION FOR
             </div>
 
             <h1>FAJAR</h1>
 
             <div class="line"></div>
 
-            <h2>💌 MY SORRY APPLICATION 💌</h2>
+            <h2>
+                💗 MY SORRY APPLICATION 💗
+            </h2>
+
+
+            <!-- LETTER -->
 
             <div class="letter">
 
@@ -77,14 +110,14 @@
                 </p>
 
                 <p>
-                    I know shayad mujhse galti hui hai...
+                    Mujhe pata hai shayad mujhse galti hui hai...
                     aur agar meri kisi baat se tum hurt hui ho,
                     then I am genuinely sorry. ❤️
                 </p>
 
                 <p>
-                    Main perfect husband nahi hoon,
-                    kabhi kabhi stupid mistakes kar deta hoon,
+                    Main perfect husband nahi hoon.
+                    Kabhi kabhi stupid mistakes kar deta hoon,
                     lekin ek cheez hamesha true rahegi —
                     <strong>I LOVE YOU.</strong>
                 </p>
@@ -97,51 +130,79 @@
                 </p>
 
                 <p>
-                    So please meri sorry accept kar lo...
-                    warna mujhe aur zyada manane padega. 😭😂
+                    Please meri sorry accept kar lo...
+                    warna mujhe aur zyada manana padega. 😭😂
                 </p>
 
+                <p>
+                    Ek baar smile kar do na...
+                    tumhari smile meri favourite cheez hai. ❤️
+                </p>
+
+
                 <div class="signature">
+
                     Forever yours,<br>
-                    <strong>Your Sweet Husband Rahul Mahey ❤️</strong>
+
+                    <strong>
+                        Your Sweet Husband Rahul Mahey ❤️
+                    </strong>
+
                 </div>
 
             </div>
 
 
             <div class="question">
-                Kya meri sorry accept hai? 🥺
+
+                Kya meri sorry accept hai? 🥺❤️
+
             </div>
 
+
+            <!-- BUTTONS -->
 
             <div class="buttons">
 
                 <button
+                    id="acceptBtn"
                     class="accept"
                     onclick="sendResponse('ACCEPTED ❤️')">
+
                     💗 ACCEPT SORRY
+
                 </button>
 
+
                 <button
+                    id="rejectBtn"
                     class="angry"
-                    onclick="sendResponse('FIRSE GUSSA 😤')">
+                    onclick="sendResponse('REJECTED 😤')">
+
                     😤 FIRSE GUSSA HONA
+
                 </button>
 
             </div>
 
+
+            <!-- RESULT -->
+
             <div id="responseMessage"></div>
 
+
             <div class="footer">
+
                 Made with ❤️ by your sweet husband Rahul Mahey
+
             </div>
 
         </div>
 
-    </section>
+    </main>
 
 
-    <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
